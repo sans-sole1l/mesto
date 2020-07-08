@@ -4,6 +4,9 @@
   background-image: url(../../../images/modal_close-Icon.svg);
   background-position: center;
   background-repeat: no-repeat;
+  background-color: unset;
+  border: 0;
+  outline: none;
   position: absolute;
   top: -40px;
   left: 100%;

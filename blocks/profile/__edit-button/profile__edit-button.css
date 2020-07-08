@@ -2,10 +2,12 @@
   width: 24px;
   height: 24px;
   border: 1px solid #FFFFFF;
+  outline: none;
   margin-left: 17px;
   background-image: url(../../../images/profile_edit-button.svg);
   background-position: center;
   background-repeat: no-repeat;
+  background-color: inherit;
   transition: 0.5s linear;
   align-self: center;
   grid-area: edit-button;

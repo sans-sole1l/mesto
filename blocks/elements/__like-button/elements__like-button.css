@@ -6,4 +6,7 @@
   background-repeat: no-repeat;
   background-size: contain;
   flex-shrink: 0;
+  border: 0;
+  outline: none;
+  background-color: inherit;
 }

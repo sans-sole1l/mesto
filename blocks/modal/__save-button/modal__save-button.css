@@ -9,6 +9,7 @@
   margin: 0 auto 36px;
   transition: 0.5s linear;
   border: none;
+  outline: none;
 }
 
 .modal__save-button:hover {

@@ -1,8 +1,6 @@
+@import url(./__copyright/footer__copyright.css);
 
 .footer {
-  font-size: 18px;
-  line-height: 1.22;
-  color: #545454;
   width: calc(100% - 400px);
   margin: 66px auto 60px;
 }

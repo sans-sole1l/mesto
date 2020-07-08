@@ -3,9 +3,18 @@
   height: 50px;
   border: 2px solid #FFFFFF;
   border-radius: 2px;
+  outline: none;
   background-image: url(../../../images/profile_add-button.svg);
   background-position: center;
   background-repeat: no-repeat;
+  background-color: inherit;
+  transition: 0.5s linear;
+  display: block;
+}
+
+.profile__add-button:hover {
+  opacity: 0.6;
+  cursor: pointer;
 }
 
 @media screen and (max-width: 1090px) {
