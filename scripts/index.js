@@ -9,12 +9,23 @@ let profileCharacter = document.querySelector('.profile__character');
 
 const formElement = modal.querySelector('.modal__form');
 
+// функция открытия/закрытия модалки
 
 function toggleModal () {
-  nameInput.value = profileName.textContent;
-  characterInput.value = profileCharacter.textContent;
   modal.classList.toggle('modal_opened');
+
+  if (modal.classList.contains('modal_opened')) {
+    nameInput.value = profileName.textContent;
+    characterInput.value = profileCharacter.textContent;
+    // console.log(nameInput.value);
+    // console.log(modal.classList);
+  // } else {
+  //   console.log('!');
+  //   console.log(modal.classList);
+  };
 };
+
+// функция кнопки "Сохранить"
 
 function formSubmitHandler (evt) {
   evt.preventDefault();
