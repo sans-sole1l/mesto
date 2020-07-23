@@ -13,3 +13,16 @@
 .modal__input:last-of-type {
   margin: 0 auto 48px;
 }
+
+@media screen and (max-width: 425px) {
+  .modal__input {
+    max-width: 200px;
+    font-size: 12px;
+    line-height: 1.25;
+    margin: 0 auto 20px;
+  }
+
+  .modal__input:last-of-type {
+    margin: 0 auto 36px;
+  }
+}
