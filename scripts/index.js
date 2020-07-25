@@ -9,22 +9,19 @@ const closeEditProfileModalButton = editProfileModal.querySelector('.modal__clos
 const closeAddCardModalButton = addCardModal.querySelector('.modal__close-button');
 const closePhotoModalButton = photoModal.querySelector('.modal__close-button');
 
-let nameInput = editProfileModal.querySelector('.modal__input_type_name');
-let characterInput = editProfileModal.querySelector('.modal__input_type_character');
-let profileName = document.querySelector('.profile__name');
-let profileCharacter = document.querySelector('.profile__character');
+const nameInput = editProfileModal.querySelector('.modal__input_type_name');
+const characterInput = editProfileModal.querySelector('.modal__input_type_character');
+const profileName = document.querySelector('.profile__name');
+const profileCharacter = document.querySelector('.profile__character');
 
-let placeInput = addCardModal.querySelector('.modal__input_type_place');
-let linkInput = addCardModal.querySelector('.modal__input_type_link');
+const placeInput = addCardModal.querySelector('.modal__input_type_place');
+const linkInput = addCardModal.querySelector('.modal__input_type_link');
 
-let modalImage = photoModal.querySelector('.modal__image');
-let modalPhotoTitle = photoModal.querySelector('.modal__title_type_photo');
+const modalImage = photoModal.querySelector('.modal__image');
+const modalPhotoTitle = photoModal.querySelector('.modal__title_type_photo');
 
 const editForm = editProfileModal.querySelector('.modal__form');
 const addCardForm = addCardModal.querySelector('.modal__form');
-
-const cardTemplate = document.querySelector('#card-template').content;
-const sectionElements = document.querySelector('.elements');
 
 const initialCards = [
   {
@@ -53,48 +50,65 @@ const initialCards = [
   }
 ];
 
+const sectionElements = document.querySelector('.elements');
+const cardTemplate = document.querySelector('#card-template').content.querySelector('.card');
 
-// функция создания карточек по умолчанию
+
+// функция добавления карточек по умолчанию
 
 initialCards.forEach(function (item) {
+  createCard(item);
+})
+
+// функция скрытой отрисовки карточки
+
+function renderCard (item) {
   const cardElement = cardTemplate.cloneNode(true);
 
-  cardElement.querySelector('.elements__image').src = item.link;
-  cardElement.querySelector('.elements__image').alt = item.name;
-  cardElement.querySelector('.elements__title').textContent = item.name;
+  const cardLikeButton = cardElement.querySelector('.card__like-button');
+  const cardDeleteButton = cardElement.querySelector('.card__delete-button');
+  const cardImage = cardElement.querySelector('.card__image');
+  const cardTitle = cardElement.querySelector('.card__title');
 
-  const cardLikeButton = cardElement.querySelector('.elements__like-button');
-  const cardDeleteButton = cardElement.querySelector('.elements__delete-button');
-  const openPhotoModalButton = cardElement.querySelector('.elements__image');
+  cardImage.src = item.link;
+  cardImage.alt = item.name;
+  cardTitle.textContent = item.name;
 
   // функциональность кнопки "лайк"
   cardLikeButton.addEventListener('click', () => {
-    cardLikeButton.classList.toggle('elements__like-button_status_active');
+    cardLikeButton.classList.toggle('card__like-button_status_active');
   });
   // функциональность кнопки "удалить"
   cardDeleteButton.addEventListener('click', (evt) => {
-    evt.target.closest('.elements__card').remove();
+    evt.target.closest('.card').remove();
   });
   // открытие модалки фотографии
-  openPhotoModalButton.addEventListener('click', (evt) => {
+  cardImage.addEventListener('click', (evt) => {
     toggleModal(photoModal);
     modalImage.src = evt.target.src;
     modalPhotoTitle.textContent = evt.target.nextElementSibling.firstElementChild.textContent;
   });
 
-  sectionElements.append(cardElement);
-});
+  return cardElement;
+}
+
+// функция добавления карточки
+
+function createCard (item) {
+  sectionElements.append(renderCard(item));
+}
+
+// функция добавления карточки в начало списка
+
+function createPrependCard (item) {
+  sectionElements.prepend(renderCard(item));
+}
 
 // функция открытия/закрытия модалки
 
 function toggleModal (modalWindow) {
   modalWindow.classList.toggle('modal_opened');
-
-  if (modalWindow.classList.contains('modal_opened')) {
-    nameInput.value = profileName.textContent;
-    characterInput.value = profileCharacter.textContent;
-  };
-};
+}
 
 // функция кнопки "Сохранить" в профиле
 
@@ -105,46 +119,26 @@ function editFormSubmitHandler (evt) {
   profileCharacter.textContent = characterInput.value;
 
   toggleModal(editProfileModal);
-};
+}
 
-// функция добавления новой карточки
+// функция кнопки "Создать" для добавления новой карточки
 
 function addCardFormSubmitHandler (evt) {
   evt.preventDefault();
 
-  const cardElement = cardTemplate.cloneNode(true);
-
-  cardElement.querySelector('.elements__image').src = linkInput.value;
-  cardElement.querySelector('.elements__image').alt = placeInput.value;
-  cardElement.querySelector('.elements__title').textContent = placeInput.value;
-
-  const cardLikeButton = cardElement.querySelector('.elements__like-button');
-  const cardDeleteButton = cardElement.querySelector('.elements__delete-button');
-  const openPhotoModalButton = cardElement.querySelector('.elements__image');
-
-  // функциональность кнопки "лайк"
-  cardLikeButton.addEventListener('click', () => {
-    cardLikeButton.classList.toggle('elements__like-button_status_active');
-  });
-  // функциональность кнопки "удалить"
-  cardDeleteButton.addEventListener('click', (evt) => {
-    evt.target.closest('.elements__card').remove();
-  });
-  // открытие модалки фотографии
-  openPhotoModalButton.addEventListener('click', (evt) => {
-    toggleModal(photoModal);
-    modalImage.src = evt.target.src;
-    modalPhotoTitle.textContent = evt.target.nextElementSibling.firstElementChild.textContent;
-  });
-
-  sectionElements.prepend(cardElement);
+  createPrependCard({name: placeInput.value, link: linkInput.value});
 
   toggleModal(addCardModal);
-};
+}
 
 
 openEditProfileModalButton.addEventListener('click', () => {
   toggleModal(editProfileModal);
+
+  if (editProfileModal.classList.contains('modal_opened')) {
+    nameInput.value = profileName.textContent;
+    characterInput.value = profileCharacter.textContent;
+  }
 });
 
 closeEditProfileModalButton.addEventListener('click', () => {
@@ -166,4 +160,5 @@ closePhotoModalButton.addEventListener('click', () => {
 editForm.addEventListener('submit', editFormSubmitHandler);
 
 addCardForm.addEventListener('submit', addCardFormSubmitHandler);
+
 

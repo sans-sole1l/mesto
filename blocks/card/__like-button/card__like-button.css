@@ -1,4 +1,4 @@
-.elements__like-button {
+.card__like-button {
   width: 20px;
   height: 18px;
   background-image: url(../../../images/elements_like-button.svg);
@@ -12,7 +12,7 @@
   transition: 0.5s linear;
 }
 
-.elements__like-button:hover {
+.card__like-button:hover {
   opacity: 0.6;
   cursor: pointer;
 }

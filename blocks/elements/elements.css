@@ -1,19 +1,12 @@
-@import url(./__card/elements__card.css);
-@import url(./__image/elements__image.css);
-@import url(./__title/elements__title.css);
-@import url(./__like-button/elements__like-button.css);
-@import url(./__like-button/_status_active/elements__like-button_status_active.css);
-@import url(./__delete-button/elements__delete-button.css);
-@import url(./__card-conteiner/elements__card-conteiner.css);
-
 
 .elements {
   width: calc(100% - 400px);
   margin: 0 auto 66px;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 280px));
   grid-column-gap: 18px;
   grid-row-gap: 20px;
+  justify-content: center;
 }
 
 @media screen and (max-width: 1024px) {
