@@ -58,11 +58,13 @@ const setEventListeners = (formElement, { inputSelector, submitButtonSelector, i
 
   inputList.forEach((inputElement) => {
     // валидация полей формы профиля при открытии и перезаписи значений полей
-    openEditProfileModalButton.addEventListener('click', () => {
-      isValid(formElement, inputElement, rest)
+    if (formElement.classList.contains('modal__form_type_profile')) {
+      openEditProfileModalButton.addEventListener('click', () => {
+        isValid(formElement, inputElement, rest)
 
-      toggleButtonState(inputList, buttonElement, inactiveButtonClass);
-    });
+        toggleButtonState(inputList, buttonElement, inactiveButtonClass);
+      });
+    }
 
     inputElement.addEventListener('input', () => {
       isValid(formElement, inputElement, rest)
