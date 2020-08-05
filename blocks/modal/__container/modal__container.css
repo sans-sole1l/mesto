@@ -8,6 +8,10 @@
   position: relative;
 }
 
+.modal__container:hover {
+  cursor: unset;
+}
+
 @media screen and (max-width: 425px) {
   .modal__container {
     max-width: 240px;

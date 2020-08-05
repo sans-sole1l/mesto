@@ -53,6 +53,8 @@ const initialCards = [
 const sectionElements = document.querySelector('.elements');
 const cardTemplate = document.querySelector('#card-template').content.querySelector('.card');
 
+const modalList = Array.from(document.querySelectorAll('.modal'));
+
 
 // функция добавления карточек по умолчанию
 
@@ -110,6 +112,32 @@ function toggleModal (modalWindow) {
   modalWindow.classList.toggle('modal_opened');
 }
 
+// Функция закрытия модалок кликом на оверлэй
+function enableOverlayToggleModal() {
+  modalList.forEach(modalWindow => {
+    modalWindow.addEventListener('click', (evt) => {
+      if (evt.target.classList.contains('modal')) {
+        toggleModal(modalWindow);
+      }
+    });
+  });
+}
+
+enableOverlayToggleModal();
+
+// Функция закрытия модалок нажатием "Esc"
+function enableEscToggleModal() {
+  modalList.forEach(modalWindow => {
+    document.addEventListener('keydown', (evt) => {
+      if (modalWindow.classList.contains('modal_opened') && evt.key === 'Escape') {
+        toggleModal(modalWindow);
+      }
+    });
+  });
+}
+
+enableEscToggleModal();
+
 // функция кнопки "Сохранить" в профиле
 
 function editFormSubmitHandler (evt) {
@@ -129,8 +157,11 @@ function addCardFormSubmitHandler (evt) {
   createPrependCard({name: placeInput.value, link: linkInput.value});
 
   toggleModal(addCardModal);
+  addCardForm.reset();
 }
 
+
+// Обработчики событий
 
 openEditProfileModalButton.addEventListener('click', () => {
   toggleModal(editProfileModal);
@@ -157,8 +188,6 @@ closePhotoModalButton.addEventListener('click', () => {
   toggleModal(photoModal);
 });
 
-editForm.addEventListener('submit', editFormSubmitHandler);
 
-addCardForm.addEventListener('submit', addCardFormSubmitHandler);
 
 
