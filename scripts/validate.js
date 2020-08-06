@@ -38,6 +38,7 @@ const hideInputError = (formElement, inputElement, { inputErrorClass, errorClass
 }
 
 // Функция проверки инпута
+
 const isValid = (formElement, inputElement, { ...rest }) => {
   if (!inputElement.validity.valid) {
     showInputError(formElement, inputElement, inputElement.validationMessage, rest);
@@ -47,6 +48,7 @@ const isValid = (formElement, inputElement, { ...rest }) => {
 };
 
 // Функция добавления слушателей всем полям формы
+
 const setEventListeners = (formElement, { inputSelector, submitButtonSelector, inactiveButtonClass, ...rest }) => {
   const inputList = Array.from(formElement.querySelectorAll(inputSelector));
 
@@ -57,15 +59,6 @@ const setEventListeners = (formElement, { inputSelector, submitButtonSelector, i
   toggleButtonState(inputList, buttonElement, inactiveButtonClass);
 
   inputList.forEach((inputElement) => {
-    // валидация полей формы профиля при открытии и перезаписи значений полей
-    if (formElement.classList.contains('modal__form_type_profile')) {
-      openEditProfileModalButton.addEventListener('click', () => {
-        isValid(formElement, inputElement, rest)
-
-        toggleButtonState(inputList, buttonElement, inactiveButtonClass);
-      });
-    }
-
     inputElement.addEventListener('input', () => {
       isValid(formElement, inputElement, rest)
 
@@ -75,16 +68,13 @@ const setEventListeners = (formElement, { inputSelector, submitButtonSelector, i
 };
 
 // Функция добавления слушателей формам
+
 const enableValidation = ({ formSelector, ...rest }) => {
   const formList = Array.from(document.querySelectorAll(formSelector));
 
   formList.forEach((formElement) => {
     formElement.addEventListener('submit', (evt) => {
-      if (formElement.classList.contains('modal__form_type_profile')) {
-        editFormSubmitHandler(evt);
-      } else {
-        addCardFormSubmitHandler(evt);
-      }
+    evt.preventDefault();
     });
 
     setEventListeners(formElement, rest);
@@ -99,3 +89,32 @@ enableValidation({
   inputErrorClass: 'modal__input_type_error',
   errorClass: 'modal__input-error_active'
 });
+
+
+// валидация полей формы профиля при открытии и перезаписи значений полей
+
+const openModalValidation = ({ openModalButtonSelector, formSelector, inputSelector, submitButtonSelector, inactiveButtonClass, ...rest }) => {
+  const openModalButton = document.querySelector(openModalButtonSelector);
+  const formElement = document.querySelector(formSelector);
+  const inputList = Array.from(formElement.querySelectorAll(inputSelector));
+  const buttonElement = formElement.querySelector(submitButtonSelector);
+
+  openModalButton.addEventListener('click', () => {
+    inputList.forEach(inputElement => {
+      isValid(formElement, inputElement, rest);
+
+      toggleButtonState(inputList, buttonElement, inactiveButtonClass);
+    });
+  });
+}
+
+openModalValidation({
+  openModalButtonSelector: '.profile__edit-button',
+  formSelector: '.modal__form_type_profile',
+  inputSelector: '.modal__input',
+  submitButtonSelector: '.modal__save-button',
+  inactiveButtonClass: 'modal__save-button_inactive',
+  inputErrorClass: 'modal__input_type_error',
+  errorClass: 'modal__input-error_active'
+});
+

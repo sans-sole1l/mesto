@@ -23,48 +23,24 @@ const modalPhotoTitle = photoModal.querySelector('.modal__title_type_photo');
 const editForm = editProfileModal.querySelector('.modal__form');
 const addCardForm = addCardModal.querySelector('.modal__form');
 
-const initialCards = [
-  {
-      name: 'Архыз',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-  },
-  {
-      name: 'Челябинская область',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-  },
-  {
-      name: 'Иваново',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-  },
-  {
-      name: 'Камчатка',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-  },
-  {
-      name: 'Холмогорский район',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-  },
-  {
-      name: 'Байкал',
-      link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-  }
-];
-
 const sectionElements = document.querySelector('.elements');
 const cardTemplate = document.querySelector('#card-template').content.querySelector('.card');
 
 const modalList = Array.from(document.querySelectorAll('.modal'));
 
 
+
+
+
 // функция добавления карточек по умолчанию
 
 initialCards.forEach(function (item) {
-  createCard(item);
+  renderCard(item);
 })
 
 // функция скрытой отрисовки карточки
 
-function renderCard (item) {
+function createCard (item) {
   const cardElement = cardTemplate.cloneNode(true);
 
   const cardLikeButton = cardElement.querySelector('.card__like-button');
@@ -96,47 +72,73 @@ function renderCard (item) {
 
 // функция добавления карточки
 
-function createCard (item) {
-  sectionElements.append(renderCard(item));
+function renderCard (item) {
+  sectionElements.append(createCard(item));
 }
 
 // функция добавления карточки в начало списка
 
-function createPrependCard (item) {
-  sectionElements.prepend(renderCard(item));
+function renderPrependCard (item) {
+  sectionElements.prepend(createCard(item));
 }
 
 // функция открытия/закрытия модалки
 
 function toggleModal (modalWindow) {
   modalWindow.classList.toggle('modal_opened');
+
+  if (modalWindow.classList.contains('modal_opened')) {
+    addEscEvtListener();
+
+    addOverlayClickEvtListener(modalWindow);
+  }
+}
+
+// Функция закрытия модалок нажатием "Esc"
+
+const enableEscToggleModal = (evt) => {
+  if (evt.key === 'Escape') {
+    const openedModal = document.querySelector('.modal_opened');
+    toggleModal(openedModal);
+
+    removeEscEvtListener();
+  }
+}
+
+// Функция добавления слушателя клавишы "Esc"
+
+function addEscEvtListener() {
+  document.addEventListener('keydown', enableEscToggleModal);
+}
+
+// Функция удаления слушателя клавишы "Esc"
+
+function removeEscEvtListener() {
+  document.removeEventListener('keydown', enableEscToggleModal);
 }
 
 // Функция закрытия модалок кликом на оверлэй
-function enableOverlayToggleModal() {
-  modalList.forEach(modalWindow => {
-    modalWindow.addEventListener('click', (evt) => {
-      if (evt.target.classList.contains('modal')) {
-        toggleModal(modalWindow);
-      }
-    });
-  });
+
+const enableOverlayToggleModal = (evt) => {
+  if (evt.target.classList.contains('modal')) {
+    const openedModal = document.querySelector('.modal_opened');
+    toggleModal(openedModal);
+
+    removeOverlayClickEvtListener(openedModal);
+  }
 }
 
-enableOverlayToggleModal();
+// Функция добавления слушателя клика по оверлэю
 
-// Функция закрытия модалок нажатием "Esc"
-function enableEscToggleModal() {
-  modalList.forEach(modalWindow => {
-    document.addEventListener('keydown', (evt) => {
-      if (modalWindow.classList.contains('modal_opened') && evt.key === 'Escape') {
-        toggleModal(modalWindow);
-      }
-    });
-  });
+function addOverlayClickEvtListener(modalWindow) {
+  modalWindow.addEventListener('click', enableOverlayToggleModal);
 }
 
-enableEscToggleModal();
+// Функция удаления слушателя клика по оверлэю
+
+function removeOverlayClickEvtListener(modalWindow) {
+  modalWindow.removeEventListener('click', enableOverlayToggleModal);
+}
 
 // функция кнопки "Сохранить" в профиле
 
@@ -154,7 +156,7 @@ function editFormSubmitHandler (evt) {
 function addCardFormSubmitHandler (evt) {
   evt.preventDefault();
 
-  createPrependCard({name: placeInput.value, link: linkInput.value});
+  renderPrependCard({name: placeInput.value, link: linkInput.value});
 
   toggleModal(addCardModal);
   addCardForm.reset();
@@ -178,6 +180,7 @@ closeEditProfileModalButton.addEventListener('click', () => {
 
 openAddCardModalButton.addEventListener('click', () => {
   toggleModal(addCardModal);
+  addCardForm.reset();
 });
 
 closeAddCardModalButton.addEventListener('click', () => {
@@ -188,6 +191,10 @@ closePhotoModalButton.addEventListener('click', () => {
   toggleModal(photoModal);
 });
 
+editForm.addEventListener('submit', (evt) => {
+  editFormSubmitHandler(evt);
+});
 
-
-
+addCardForm.addEventListener('submit', (evt) => {
+  addCardFormSubmitHandler(evt);
+});
