@@ -62,9 +62,9 @@ function createCard (item) {
   });
   // открытие модалки фотографии
   cardImage.addEventListener('click', (evt) => {
-    toggleModal(photoModal);
+    openModal(photoModal);
     modalImage.src = evt.target.src;
-    modalPhotoTitle.textContent = evt.target.nextElementSibling.firstElementChild.textContent;
+    modalPhotoTitle.textContent = cardTitle.textContent;
   });
 
   return cardElement;
@@ -84,37 +84,41 @@ function renderPrependCard (item) {
 
 // функция открытия/закрытия модалки
 
-function toggleModal (modalWindow) {
-  modalWindow.classList.toggle('modal_opened');
+function openModal (modalWindow) {
+  modalWindow.classList.add('modal_opened');
 
-  if (modalWindow.classList.contains('modal_opened')) {
-    addEscEvtListener();
-
-    addOverlayClickEvtListener(modalWindow);
-  }
+  document.addEventListener('keyup', enableEscToggleModal);
+  modalWindow.addEventListener('click', enableOverlayToggleModal);
 }
+
+function closeModal (modalWindow) {
+  modalWindow.classList.remove('modal_opened');
+
+  document.removeEventListener('keyup', enableEscToggleModal);
+  modalWindow.removeEventListener('click', enableOverlayToggleModal);
+}
+
+// function toggleModal (modalWindow) {
+//   modalWindow.classList.toggle('modal_opened');
+
+//   if (modalWindow.classList.contains('modal_opened')) {
+//     document.addEventListener('keyup', enableEscToggleModal);
+//     modalWindow.addEventListener('click', enableOverlayToggleModal);
+//   } else {
+//     document.removeEventListener('keyup', enableEscToggleModal);
+//     modalWindow.removeEventListener('click', enableOverlayToggleModal);
+//   }
+// }
 
 // Функция закрытия модалок нажатием "Esc"
 
 const enableEscToggleModal = (evt) => {
   if (evt.key === 'Escape') {
     const openedModal = document.querySelector('.modal_opened');
-    toggleModal(openedModal);
+    // toggleModal(openedModal);
 
-    removeEscEvtListener();
+    closeModal(openedModal);
   }
-}
-
-// Функция добавления слушателя клавишы "Esc"
-
-function addEscEvtListener() {
-  document.addEventListener('keydown', enableEscToggleModal);
-}
-
-// Функция удаления слушателя клавишы "Esc"
-
-function removeEscEvtListener() {
-  document.removeEventListener('keydown', enableEscToggleModal);
 }
 
 // Функция закрытия модалок кликом на оверлэй
@@ -122,22 +126,10 @@ function removeEscEvtListener() {
 const enableOverlayToggleModal = (evt) => {
   if (evt.target.classList.contains('modal')) {
     const openedModal = document.querySelector('.modal_opened');
-    toggleModal(openedModal);
+    // toggleModal(openedModal);
 
-    removeOverlayClickEvtListener(openedModal);
+    closeModal(openedModal);
   }
-}
-
-// Функция добавления слушателя клика по оверлэю
-
-function addOverlayClickEvtListener(modalWindow) {
-  modalWindow.addEventListener('click', enableOverlayToggleModal);
-}
-
-// Функция удаления слушателя клика по оверлэю
-
-function removeOverlayClickEvtListener(modalWindow) {
-  modalWindow.removeEventListener('click', enableOverlayToggleModal);
 }
 
 // функция кнопки "Сохранить" в профиле
@@ -148,7 +140,9 @@ function editFormSubmitHandler (evt) {
   profileName.textContent = nameInput.value;
   profileCharacter.textContent = characterInput.value;
 
-  toggleModal(editProfileModal);
+  // toggleModal(editProfileModal);
+
+  closeModal(editProfileModal);
 }
 
 // функция кнопки "Создать" для добавления новой карточки
@@ -158,7 +152,7 @@ function addCardFormSubmitHandler (evt) {
 
   renderPrependCard({name: placeInput.value, link: linkInput.value});
 
-  toggleModal(addCardModal);
+  closeModal(addCardModal);
   addCardForm.reset();
 }
 
@@ -166,29 +160,33 @@ function addCardFormSubmitHandler (evt) {
 // Обработчики событий
 
 openEditProfileModalButton.addEventListener('click', () => {
-  toggleModal(editProfileModal);
+  openModal(editProfileModal);
 
   if (editProfileModal.classList.contains('modal_opened')) {
     nameInput.value = profileName.textContent;
     characterInput.value = profileCharacter.textContent;
   }
+
+  openModalValidation(editProfileModal, openModalValidationObj);
 });
 
 closeEditProfileModalButton.addEventListener('click', () => {
-  toggleModal(editProfileModal);
+  closeModal(editProfileModal);
 });
 
 openAddCardModalButton.addEventListener('click', () => {
-  toggleModal(addCardModal);
+  openModal(addCardModal);
   addCardForm.reset();
+
+  openModalValidation(addCardModal, openModalValidationObj);
 });
 
 closeAddCardModalButton.addEventListener('click', () => {
-  toggleModal(addCardModal);
+  closeModal(addCardModal);
 });
 
 closePhotoModalButton.addEventListener('click', () => {
-  toggleModal(photoModal);
+  closeModal(photoModal);
 });
 
 editForm.addEventListener('submit', (evt) => {

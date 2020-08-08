@@ -93,28 +93,22 @@ enableValidation({
 
 // валидация полей формы профиля при открытии и перезаписи значений полей
 
-const openModalValidation = ({ openModalButtonSelector, formSelector, inputSelector, submitButtonSelector, inactiveButtonClass, ...rest }) => {
-  const openModalButton = document.querySelector(openModalButtonSelector);
-  const formElement = document.querySelector(formSelector);
+const openModalValidation = (formElement, { inputSelector, submitButtonSelector, inactiveButtonClass, ...rest }) => {
   const inputList = Array.from(formElement.querySelectorAll(inputSelector));
   const buttonElement = formElement.querySelector(submitButtonSelector);
 
-  openModalButton.addEventListener('click', () => {
-    inputList.forEach(inputElement => {
-      isValid(formElement, inputElement, rest);
+  inputList.forEach(inputElement => {
+    isValid(formElement, inputElement, rest);
 
-      toggleButtonState(inputList, buttonElement, inactiveButtonClass);
-    });
+    toggleButtonState(inputList, buttonElement, inactiveButtonClass);
   });
 }
 
-openModalValidation({
-  openModalButtonSelector: '.profile__edit-button',
-  formSelector: '.modal__form_type_profile',
+const openModalValidationObj = {
   inputSelector: '.modal__input',
   submitButtonSelector: '.modal__save-button',
   inactiveButtonClass: 'modal__save-button_inactive',
   inputErrorClass: 'modal__input_type_error',
   errorClass: 'modal__input-error_active'
-});
+};
 
