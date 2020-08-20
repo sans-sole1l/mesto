@@ -7,47 +7,47 @@ export class FormValidator {
     this._inactiveButtonClass = obj.inactiveButtonClass;
     this._inputErrorClass = obj.inputErrorClass;
     this._errorClass = obj.errorClass;
-    this._form = form;
+    this._formElement = document.querySelector(form);
   }
 
   openModalValidation() {
-    const formElement = document.querySelector(this._form);
-    const inputList = Array.from(formElement.querySelectorAll(this._inputSelector));
-    const buttonElement = formElement.querySelector(this._submitButtonSelector);
+    const inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
+    const buttonElement = this._formElement.querySelector(this._submitButtonSelector);
 
     inputList.forEach(inputElement => {
-      this._isValid(formElement, inputElement);
-
-      this._toggleButtonState(inputList, buttonElement, this._inactiveButtonClass);
+      if (inputElement.value.length > 0) {
+        this._isValid(this._formElement, inputElement);
+        this._toggleButtonState(inputList, buttonElement, this._inactiveButtonClass);
+      } else {
+        this._toggleButtonState(inputList, buttonElement, this._inactiveButtonClass);
+      }
     });
   }
 
   // Функция добавления слушателей формам
 
   enableValidation() {
-    const formElement = document.querySelector(this._form);
-
-    formElement.addEventListener('submit', (evt) => {
+    this._formElement.addEventListener('submit', (evt) => {
       evt.preventDefault();
     });
 
-    this._setEventListeners(formElement);
+    this._setEventListeners(this._formElement);
   };
 
   // Функция добавления слушателей всем полям формы
 
   _setEventListeners(formElement) {
-    const inputList = Array.from(formElement.querySelectorAll(this._inputSelector));
+    const inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
 
     // Найдём в текущей форме кнопку отправки
-    const buttonElement = formElement.querySelector(this._submitButtonSelector);
+    const buttonElement = this._formElement.querySelector(this._submitButtonSelector);
 
     // Вызовем toggleButtonState, чтобы не ждать ввода данных в поля
     this._toggleButtonState(inputList, buttonElement, this._inactiveButtonClass);
 
     inputList.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
-        this._isValid(formElement, inputElement)
+        this._isValid(this._formElement, inputElement)
 
         this._toggleButtonState(inputList, buttonElement, this._inactiveButtonClass);
       });
@@ -58,15 +58,15 @@ export class FormValidator {
 
   _isValid(formElement, inputElement) {
     if (!inputElement.validity.valid) {
-      this._showInputError(formElement, inputElement, inputElement.validationMessage);
+      this._showInputError(this._formElement, inputElement, inputElement.validationMessage);
     } else {
-      this._hideInputError(formElement, inputElement);
+      this._hideInputError(this._formElement, inputElement);
     }
   };
 
     // Функция добавления ошибки
   _showInputError(formElement, inputElement, errorMessage) {
-    const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
+    const errorElement = this._formElement.querySelector(`#${inputElement.id}-error`);
 
     inputElement.classList.add(this._inputErrorClass);
     errorElement.textContent = errorMessage;
@@ -75,7 +75,7 @@ export class FormValidator {
 
   // Функция скрытия ошибки
   _hideInputError(formElement, inputElement) {
-    const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
+    const errorElement = this._formElement.querySelector(`#${inputElement.id}-error`);
 
     inputElement.classList.remove(this._inputErrorClass);
     errorElement.classList.remove(this._errorClass);

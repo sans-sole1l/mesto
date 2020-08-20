@@ -42,23 +42,19 @@ const validationObj = {
 // функция добавления карточек по умолчанию
 
 initialCards.forEach((item) => {
-  const card = new Card(item);
+  const card = new Card(item, '#card-template');
   const cardElement = card.generateCard();
 
   sectionElements.append(cardElement);
 });
 
-// функция добавления класса и запуска валидации
+// функции добавления класса и запуска валидации
 
-formList.forEach((form) => {
-  if (form.classList.contains('modal__form_type_profile')) {
-    const formValidator = new FormValidator(validationObj, '.modal__form_type_profile');
-    formValidator.enableValidation();
-  } else {
-    const formValidator = new FormValidator(validationObj, '.modal__form_type_addcard');
-    formValidator.enableValidation();
-  }
-});
+const editFormValidator = new FormValidator(validationObj, '.modal__form_type_profile');
+const cardFormValidator = new FormValidator(validationObj, '.modal__form_type_addcard');
+
+editFormValidator.enableValidation();
+cardFormValidator.enableValidation();
 
 // функция открытия модалки
 
@@ -114,7 +110,7 @@ function editFormSubmitHandler (evt) {
 function addCardFormSubmitHandler (evt) {
   evt.preventDefault();
 
-  const card = new Card({name: placeInput.value, link: linkInput.value});
+  const card = new Card({name: placeInput.value, link: linkInput.value}, '#card-template');
   const cardElement = card.generateCard();
   renderPrependCard(cardElement);
 
@@ -139,8 +135,7 @@ openEditProfileModalButton.addEventListener('click', () => {
     characterInput.value = profileCharacter.textContent;
   }
 
-  const formValidator = new FormValidator(validationObj, '.modal__form_type_profile');
-  formValidator.openModalValidation();
+  editFormValidator.openModalValidation();
 });
 
 closeEditProfileModalButton.addEventListener('click', () => {
@@ -151,8 +146,7 @@ openAddCardModalButton.addEventListener('click', () => {
   openModal(addCardModal);
   addCardForm.reset();
 
-  const formValidator = new FormValidator(validationObj, '.modal__form_type_addcard');
-  formValidator.openModalValidation();
+  cardFormValidator.openModalValidation();
 });
 
 closeAddCardModalButton.addEventListener('click', () => {
