@@ -124,6 +124,20 @@ function renderPrependCard (cardElement) {
   sectionElements.prepend(cardElement);
 }
 
+// функция сброса ошибок полей при открытии формы
+
+function hideInputError(formElement) {
+  const inputList = Array.from(formElement.querySelectorAll('.modal__input'));
+
+  inputList.forEach((inputElement) => {
+    const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
+
+    inputElement.classList.remove('modal__input_type_error');
+    errorElement.classList.remove('modal__input-error_active');
+    errorElement.textContent = '';
+  });
+}
+
 
 // Обработчики событий
 
@@ -147,6 +161,7 @@ openAddCardModalButton.addEventListener('click', () => {
   addCardForm.reset();
 
   cardFormValidator.openModalValidation();
+  hideInputError(addCardForm);
 });
 
 closeAddCardModalButton.addEventListener('click', () => {
