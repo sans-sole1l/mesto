@@ -1,9 +1,11 @@
 
 export class Card {
-  constructor(data, cardSelector) {
+  constructor(data, cardSelector, handleCardClick) {
     this._name = data.name;
     this._link = data.link;
     this._cardSelector = cardSelector;
+    this._handleCardClick = handleCardClick;
+    this._data = data;
   }
 
   _getTemplate() {
@@ -44,45 +46,15 @@ export class Card {
     });
 
     // функциональность кнопки "удалить"
+
     cardDeleteButton.addEventListener('click', (evt) => {
       evt.target.closest('.card').remove();
     });
 
     // открытие модалки фотографии
-    cardImage.addEventListener('click', (evt) => {
-      this._openModal(photoModal);
-      modalImage.src = evt.target.src;
-      modalPhotoTitle.textContent = cardTitle.textContent;
+    cardImage.addEventListener('click', () => {
+      this._handleCardClick(this._data);
     });
   }
-
-  _openModal (modalWindow) {
-    modalWindow.classList.add('modal_opened');
-
-    document.addEventListener('keyup', this._enableEscToggleModal);
-    modalWindow.addEventListener('click', this._enableOverlayToggleModal);
-  }
-
-  _closeModal (modalWindow) {
-    modalWindow.classList.remove('modal_opened');
-
-    document.removeEventListener('keyup', this._enableEscToggleModal);
-    modalWindow.removeEventListener('click', this._enableOverlayToggleModal);
-  }
-
-  _enableEscToggleModal = (evt) => {
-    if (evt.key === 'Escape') {
-      const openedModal = document.querySelector('.modal_opened');
-
-      this._closeModal(openedModal);
-    }
-  }
-
-  _enableOverlayToggleModal = (evt) => {
-    if (evt.target.classList.contains('modal')) {
-      const openedModal = document.querySelector('.modal_opened');
-
-      this._closeModal(openedModal);
-    }
-  }
 }
+

@@ -24,6 +24,18 @@ export class FormValidator {
     });
   }
 
+  // функция сброса ошибок полей при открытии формы
+
+  hideError() {
+    this._inputList.forEach((inputElement) => {
+      const errorElement = this._formElement.querySelector(`#${inputElement.id}-error`);
+
+      inputElement.classList.remove(this._inputErrorClass);
+      errorElement.classList.remove(this._errorClass);
+      errorElement.textContent = '';
+    });
+  }
+
   // Функция добавления слушателей формам
 
   enableValidation() {
