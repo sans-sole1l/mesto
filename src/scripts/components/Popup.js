@@ -2,22 +2,22 @@ export class Popup {
   constructor(modalSelector) {
     this._modalWindow = document.querySelector(modalSelector);
 
-    this._hec = this._handleEscClose.bind(this);
-    this._hoc = this._handleOverlayCLose.bind(this);
+    this._handleEscClose = this._handleEscClose.bind(this);
+    this._handleOverlayCLose = this._handleOverlayCLose.bind(this);
   }
 
   open() {
     this._modalWindow.classList.add('modal_opened');
 
-    document.addEventListener('keyup', this._hec);
-    this._modalWindow.addEventListener('click', this._hoc);
+    document.addEventListener('keyup', this._handleEscClose);
+    this._modalWindow.addEventListener('click', this._handleOverlayCLose);
   }
 
   close() {
     this._modalWindow.classList.remove('modal_opened');
 
-    document.removeEventListener('keyup', this._hec);
-    this._modalWindow.removeEventListener('click', this._hoc);
+    document.removeEventListener('keyup', this._handleEscClose);
+    this._modalWindow.removeEventListener('click', this._handleOverlayCLose);
   }
 
   _handleEscClose (evt) {

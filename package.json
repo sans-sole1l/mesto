@@ -4,7 +4,7 @@
   "description": "### Обзор * Описание * Технологии",
   "main": "index.js",
   "scripts": {
-    "build": "rd /s /q dist && webpack --mode production",
+    "build": "rm -rf dist && webpack --mode production",
     "dev": "webpack-dev-server --watch --open --mode development"
   },
   "repository": {
@@ -35,7 +35,7 @@
     "webpack-dev-server": "^3.11.0"
   },
   "dependencies": {
-    "@babel/polyfill": "^7.10.4",
-    "core-js": "^3.6.5"
+    "core-js": "^3.6.5",
+    "rimraf": "^3.0.2"
   }
 }

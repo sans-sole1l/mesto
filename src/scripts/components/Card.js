@@ -35,10 +35,6 @@ export class Card {
     const cardLikeButton = this._element.querySelector('.card__like-button');
     const cardDeleteButton = this._element.querySelector('.card__delete-button');
     const cardImage = this._element.querySelector('.card__image');
-    const cardTitle = this._element.querySelector('.card__title');
-    const photoModal = document.querySelector('.modal_type_photo');
-    const modalImage = photoModal.querySelector('.modal__image');
-    const modalPhotoTitle = photoModal.querySelector('.modal__title_type_photo');
 
     // функциональность кнопки "лайк"
     cardLikeButton.addEventListener('click', () => {
