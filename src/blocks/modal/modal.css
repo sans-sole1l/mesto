@@ -5,12 +5,14 @@
 @import url(./__save-button/_inactive/modal__save-button_inactive.css);
 @import url(./__title/modal__title.css);
 @import url(./__title/_type_photo/modal__title_type_photo.css);
+@import url(./__title/_type_avatar/modal__title_type_avatar.css);
 @import url(./__input/modal__input.css);
 @import url(./__input/_type_error/modal__input_type_error.css);
 @import url(./__form/modal__form.css);
 @import url(./__image/modal__image.css);
 @import url(./__input-error/modal__input-error.css);
 @import url(./__input-error/_active/modal__input-error_active.css);
+@import url(./__confirm-button/modal__confirm-button.css);
 
 
 .modal {

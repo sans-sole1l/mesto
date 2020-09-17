@@ -5,19 +5,19 @@ export class PopupWithForm extends Popup {
     super(modalSelector);
     this._handleFormSubmit = handleFormSubmit;
     this._modalForm = this._modalWindow.querySelector('.modal__form');
+    this._saveButton = this._modalForm.querySelector('.modal__save-button');
   }
 
   _getInputValues() {
     this._inputList = this._modalWindow.querySelectorAll('.modal__input');
 
     this._formValues = {};
+
     this._inputList.forEach(input => {
       this._formValues[input.name] = input.value;
     });
 
-    this._formValuesArray = [this._formValues];
-
-    return this._formValuesArray;
+    return this._formValues;
   }
 
   setEventListeners() {
@@ -31,6 +31,8 @@ export class PopupWithForm extends Popup {
   _submitCallback(evt) {
     evt.preventDefault();
 
+    this._buttonDelayStatus();
+
     this._handleFormSubmit(this._getInputValues());
   }
 
@@ -40,5 +42,15 @@ export class PopupWithForm extends Popup {
     this._modalForm.reset();
 
     this._modalForm.removeEventListener('submit', this._callback);
+
+    if (this._modalWindow.classList.contains('modal_type_add-card')) {
+      this._saveButton.textContent = 'Создать';
+    } else {
+      this._saveButton.textContent = 'Сохранить';
+    }
+  }
+
+  _buttonDelayStatus() {
+    this._saveButton.textContent = 'Сохранение...';
   }
 }

@@ -1,9 +1,14 @@
 export class Popup {
-  constructor(modalSelector) {
+  constructor(modalSelector, confirmCallback, cardId, cardShell) {
     this._modalWindow = document.querySelector(modalSelector);
 
     this._handleEscClose = this._handleEscClose.bind(this);
     this._handleOverlayCLose = this._handleOverlayCLose.bind(this);
+
+    this._confirmCallback = confirmCallback;
+    this._cardId = cardId;
+    this._cardShell = cardShell;
+    this._confirmButton = this._modalWindow.querySelector('.modal__confirm-button');
   }
 
   open() {
@@ -37,6 +42,16 @@ export class Popup {
 
     modalCloseButton.addEventListener('click', () => {
       this.close();
+    });
+  }
+
+  setConfirmListener() {
+    const modalConfirmButton = this._modalWindow.querySelector('.modal__confirm-button');
+
+    modalConfirmButton.addEventListener('click', () => {
+      this._confirmCallback(this._cardId);
+      this.close();
+      this._cardShell.remove();
     });
   }
 }

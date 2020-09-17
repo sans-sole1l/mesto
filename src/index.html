@@ -11,7 +11,9 @@
   </header>
   <main class="content">
     <section class="profile">
-      <div class="profile__avatar"></div>
+      <div class="profile__overlay">
+        <img src="./images/profile_kusto.jpg" alt="Аватар" class="profile__avatar">
+      </div>
       <div class="profile__info">
         <h1 class="profile__name">Жак-Ив Кусто</h1>
         <button type="button" class="profile__edit-button"></button>
@@ -32,7 +34,7 @@
       <form action="#" name="profile-form" class="modal__form modal__form_type_profile" novalidate>
         <input id="name-input" name="name" type="text" class="modal__input modal__input_type_name" value="" required minlength="2" maxlength="40" autocomplete="off">
         <span id="name-input-error" class="modal__input-error"></span>
-        <input id="character-input" name="character" type="text" class="modal__input modal__input_type_character" value="" required minlength="2" maxlength="200" autocomplete="off">
+        <input id="character-input" name="about" type="text" class="modal__input modal__input_type_character" value="" required minlength="2" maxlength="200" autocomplete="off">
         <span id="character-input-error" class="modal__input-error"></span>
         <button type="submit" class="modal__save-button">Сохранить</button>
       </form>
@@ -51,6 +53,24 @@
       </form>
     </div>
   </div>
+  <div class="modal modal_type_edit-avatar">
+    <div class="modal__container">
+      <button type="button" class="modal__close-button"></button>
+      <h3 class="modal__title modal__title_type_avatar">Обновить аватар</h3>
+      <form action="#" name="avatar-form" class="modal__form modal__form_type_avatar" novalidate>
+        <input id="url-input" name="avatar" type="url" class="modal__input modal__input_type_link" placeholder="Ссылка на аватар" required minlength="2" maxlength="200" autocomplete="off">
+        <span id="url-input-error" class="modal__input-error"></span>
+        <button type="submit" class="modal__save-button">Сохранить</button>
+      </form>
+    </div>
+  </div>
+  <div class="modal modal_type_del-card">
+    <div class="modal__container">
+      <button type="button" class="modal__close-button"></button>
+      <h3 class="modal__title">Вы уверены?</h3>
+      <button type="button" class="modal__confirm-button">Да</button>
+    </div>
+  </div>
   <div class="modal modal_type_photo">
     <div class="modal__container modal__conteiner_type_photo">
       <button type="button" class="modal__close-button"></button>
@@ -64,7 +84,7 @@
       <img src="#" alt="" class="card__image">
       <div class="card__conteiner">
         <h2 class="card__title"></h2>
-        <button type="button" class="card__like-button"></button>
+        <button type="button" class="card__like-button"><span class="card__like-counter">0</span></button>
       </div>
     </div>
   </template>

@@ -1,5 +1,7 @@
 export const openEditProfileModalButton = document.querySelector('.profile__edit-button');
 export const openAddCardModalButton = document.querySelector('.profile__add-button');
+export const avatarOpenModalButton = document.querySelector('.profile__overlay');
+
 
 export const editProfileModal = document.querySelector('.modal_type_edit-profile');
 
