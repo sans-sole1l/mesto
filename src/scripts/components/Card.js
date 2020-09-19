@@ -32,7 +32,6 @@ export class Card {
     if (this._owner._id !== this._userId) {
       this._element.querySelector('.card__delete-button').remove();
     }
-
     if (this._likes.some(user => user._id === this._userId)) {
       this._element.querySelector('.card__like-button').classList.add('card__like-button_status_active');
     }
@@ -42,28 +41,22 @@ export class Card {
     cardImage.alt = this._name;
     this._element.querySelector('.card__title').textContent = this._name;
 
-    this._countLikes();
+    this._likeCounter.textContent = this._likes.length;
+    // this._countLikes();
 
     return this._element;
   }
 
   _setEventListeners() {
-    const cardLikeButton = this._element.querySelector('.card__like-button');
     const cardDeleteButton = this._element.querySelector('.card__delete-button');
     const cardImage = this._element.querySelector('.card__image');
-    const likeCounter = this._element.querySelector('.card__like-counter');
+
+    this._LikeButton = this._element.querySelector('.card__like-button');
+    this._likeCounter = this._element.querySelector('.card__like-counter');
 
     // функциональность кнопки "лайк"
-    cardLikeButton.addEventListener('click', () => {
+    this._LikeButton.addEventListener('click', () => {
       this._likeCallback();
-
-      if (cardLikeButton.classList.contains('card__like-button_status_active')) {
-        cardLikeButton.classList.remove('card__like-button_status_active');
-        likeCounter.textContent = (this._likesCounter);
-      } else {
-        cardLikeButton.classList.add('card__like-button_status_active');
-        likeCounter.textContent = (this._likesCounter + 1);
-      }
     });
 
     // функциональность кнопки "удалить"
@@ -78,15 +71,15 @@ export class Card {
   }
 
   _likeCallback() {
-    this._handleLikeClick(this._id, this._userId)
+    this._handleLikeClick(this._id, this._userId, this._LikeButton, this._likeCounter, this._likes, this._owner)
   }
 
-  _countLikes() {
-    this._likesCounter = null;
-    this._likes.forEach(() => {
-      this._likesCounter += 1;
-    });
+  // _countLikes() {
+  //   this._likesCounter = null;
+  //   this._likes.forEach(() => {
+  //     this._likesCounter += 1;
+  //   });
 
-    this._element.querySelector('.card__like-counter').textContent = this._likesCounter;
-  }
+  //   this._element.querySelector('.card__like-counter').textContent = this._likesCounter;
+  // }
 }

@@ -3,9 +3,6 @@ export class UserInfo {
     this._profileName = document.querySelector(profileName);
     this._profileCharacter = document.querySelector(profileCharacter);
     this._profileAvatar = document.querySelector(profileAvatar);
-
-    this._nameInput = document.querySelector('.modal__input_type_name');
-    this._characterInput = document.querySelector('.modal__input_type_character');
   }
 
   getUserInfo() {
@@ -14,9 +11,9 @@ export class UserInfo {
     return profileInfo;
   }
 
-  setModalUserInfo({ name, about }) {
-    this._nameInput.value = name;
-    this._characterInput.value = about;
+  setModalUserInfo({ name, about }, nameInput, characterInput) {
+    nameInput.value = name;
+    characterInput.value = about;
   }
 
   setUserInfo({ name, about }) {

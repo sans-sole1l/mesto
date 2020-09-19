@@ -1,11 +1,13 @@
 @import url(./__close-button/modal__close-button.css);
 @import url(./__container/modal__container.css);
 @import url(./__container/_type_photo/modal__container_type_photo.css);
+@import url(./__container/_type_error/modal__container_type_error.css);
 @import url(./__save-button/modal__save-button.css);
 @import url(./__save-button/_inactive/modal__save-button_inactive.css);
 @import url(./__title/modal__title.css);
 @import url(./__title/_type_photo/modal__title_type_photo.css);
 @import url(./__title/_type_avatar/modal__title_type_avatar.css);
+@import url(./__title/_type_error/modal__title_type_error.css);
 @import url(./__input/modal__input.css);
 @import url(./__input/_type_error/modal__input_type_error.css);
 @import url(./__form/modal__form.css);

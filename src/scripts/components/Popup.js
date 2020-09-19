@@ -50,8 +50,10 @@ export class Popup {
 
     modalConfirmButton.addEventListener('click', () => {
       this._confirmCallback(this._cardId);
-      this.close();
-      this._cardShell.remove();
     });
+  }
+
+  removeCard() {
+    this._cardShell.remove();
   }
 }

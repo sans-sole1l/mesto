@@ -1,13 +1,33 @@
 export class Api {
   constructor(config) {
     this._url = config.url;
-    this._headers = config.headers;
+    this._token = config.token;
   }
 
-  get() {
-    return fetch(this._url, {
+  getInitialCards() {
+    return fetch(`${this._url}/cards`, {
       method: 'GET',
-      headers: this._headers
+      headers: {
+        authorization: this._token,
+        'Content-type': 'application/json'
+      }
+    })
+      .then(res => {
+        if (res.ok) {
+          return res.json();
+        }
+
+        return Promise.reject(`Ошибка: ${res.status}`);
+      })
+  }
+
+  getUserInfo() {
+    return fetch(`${this._url}/users/me`, {
+      method: 'GET',
+      headers: {
+        authorization: this._token,
+        'Content-type': 'application/json'
+      }
     })
       .then(res => {
         if (res.ok) {
@@ -19,9 +39,12 @@ export class Api {
   }
 
   postCard(data) {
-    return fetch(this._url, {
+    return fetch(`${this._url}/cards`, {
       method: 'POST',
-      headers: this._headers,
+      headers: {
+        authorization: this._token,
+        'Content-type': 'application/json'
+      },
       body: JSON.stringify(data)
     })
       .then(res => {
@@ -33,10 +56,13 @@ export class Api {
       })
   }
 
-  delCard() {
-    return fetch(this._url, {
+  delCard(cardId) {
+    return fetch(`${this._url}/cards/${cardId}`, {
       method: 'DELETE',
-      headers: this._headers,
+      headers: {
+        authorization: this._token,
+        'Content-type': 'application/json'
+      }
     })
       .then(res => {
         if (res.ok) {
@@ -48,9 +74,12 @@ export class Api {
   }
 
   saveUserInfo(formData) {
-    return fetch(this._url, {
+    return fetch(`${this._url}/users/me`, {
       method: 'PATCH',
-      headers: this._headers,
+      headers: {
+        authorization: this._token,
+        'Content-type': 'application/json'
+      },
       body: JSON.stringify(formData)
     })
       .then(res => {
@@ -63,9 +92,12 @@ export class Api {
   }
 
   saveAvatar(formData) {
-    return fetch(this._url, {
+    return fetch(`${this._url}/users/me/avatar`, {
       method: 'PATCH',
-      headers: this._headers,
+      headers: {
+        authorization: this._token,
+        'Content-type': 'application/json'
+      },
       body: JSON.stringify(formData)
     })
       .then(res => {
@@ -77,10 +109,13 @@ export class Api {
       })
   }
 
-  likeCard() {
-    return fetch(this._url, {
+  likeCard(cardId) {
+    return fetch(`${this._url}/cards/likes/${cardId}`, {
       method: 'PUT',
-      headers: this._headers,
+      headers: {
+        authorization: this._token,
+        'Content-type': 'application/json'
+      }
     })
       .then(res => {
         if (res.ok) {
@@ -91,10 +126,13 @@ export class Api {
       })
   }
 
-  dislikeCard() {
-    return fetch(this._url, {
+  dislikeCard(cardId) {
+    return fetch(`${this._url}/cards/likes/${cardId}`, {
       method: 'DELETE',
-      headers: this._headers,
+      headers: {
+        authorization: this._token,
+        'Content-type': 'application/json'
+      }
     })
       .then(res => {
         if (res.ok) {

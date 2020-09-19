@@ -14,3 +14,6 @@ export const validationObj = {
   inputErrorClass: 'modal__input_type_error',
   errorClass: 'modal__input-error_active'
 };
+
+export const nameInput = document.querySelector('.modal__input_type_name');
+export const characterInput = document.querySelector('.modal__input_type_character');
