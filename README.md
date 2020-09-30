@@ -8,7 +8,7 @@
 
 Интерактивный сервис для размещения фотографий.
 
-[Ссылка проекта на GitHub](https://evgeny-proskurnikov.github.io/mesto/index.html)
+[Ссылка проекта на GitHub](https://evgeny-proskurnikov.github.io/mesto/)
 
 **Технологии**
 
